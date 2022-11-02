@@ -1,0 +1,14 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="train_and_test.train_and_save_model.f1_score" />
+          <option value="train_and_test.train_and_save_model.precision_score" />
+          <option value="train_and_test.train_and_save_model.recall_score" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
