@@ -19,6 +19,7 @@ def read_csv():
 
         rowCount = 0
         for lines in csvFile:
+            if(rowCount>100):break
             if(rowCount > 0):
                 type.append(int(lines[0]))
                 lat.append(float(lines[1]))
@@ -94,4 +95,4 @@ def read_csv():
     g = np.array(amount)
 
     df = pd.DataFrame({'Type': a,'Lat': b,'Lon': c,'Floor Size(SQFT)': f,'Number of Rooms': d,'Number of Bathroom': e,'Amount(BDT)': g})
-    df.to_csv("processed_ml_dataset.csv", index=False)
+    df.to_csv("test_ml_dataset.csv", index=False)
