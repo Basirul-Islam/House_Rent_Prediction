@@ -19,7 +19,7 @@ def read_csv():
 
         rowCount = 0
         for lines in csvFile:
-            if(rowCount>100):break
+            #if(rowCount>100):break
             if(rowCount > 0):
                 type.append(int(lines[0]))
                 lat.append(float(lines[1]))
@@ -95,4 +95,30 @@ def read_csv():
     g = np.array(amount)
 
     df = pd.DataFrame({'Type': a,'Lat': b,'Lon': c,'Floor Size(SQFT)': f,'Number of Rooms': d,'Number of Bathroom': e,'Amount(BDT)': g})
-    df.to_csv("test_ml_dataset.csv", index=False)
+    #df = pd.DataFrame({'Type': a,'Floor Size(SQFT)': f,'Number of Rooms': d,'Number of Bathroom': e,'Amount(BDT)': g})
+    df.to_csv("processed_ml_dataset.csv", index=False)
+
+    df = pd.read_csv('processed_ml_dataset.csv')
+    print('Dimension of dataset= ', df.shape)
+    df.head()
+    from sklearn.cluster import KMeans
+    df.dropna(axis=0, how='any', subset=['Lat', 'Lon'], inplace=True)
+    # Variable with the Longitude and Latitude
+    X = df.loc[:, ['Type', 'Lat', 'Lon']]
+    #print(X.head(10))
+    kmeans = KMeans(n_clusters=10, max_iter=1000, init='k-means++')
+    lat_long = df.values[:, 1:3]
+    #print(lat_long)
+    # lot_size =  df.values[:, 2]
+    # kmeans = KMeans(n_clusters = 3, init ='k-means++')
+    kmeans.fit(lat_long)  # Compute k-means clustering.
+    X['cluster_label'] = kmeans.fit_predict(lat_long)
+    centers = kmeans.cluster_centers_  # Coordinates of cluster centers.
+    labels = kmeans.predict(lat_long)  # Labels of each point
+    #print(X.head(10))
+
+    cluster = kmeans.fit_predict(lat_long)
+    print(cluster)
+
+    df = pd.DataFrame({'Type': a, 'Floor Size(SQFT)': f, 'Number of Rooms': d, 'Number of Bathroom': e, 'Cluster Label': cluster,'Amount(BDT)': g})
+    df.to_csv("final_processed_ml_dataset.csv", index=False)
